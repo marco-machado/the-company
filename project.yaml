@@ -60,9 +60,10 @@ commands:
   # build flags sourced from https://docs.unity3d.com/6000.6/Documentation/Manual/EditorCommandLineArguments.html
   # (-buildTarget osxuniversal, -buildOSXUniversalPlayer). Not yet run on this project.
   build: '"/Applications/Unity/Hub/Editor/6000.6.4f1/Unity.app/Contents/MacOS/Unity" -batchmode -quit -projectPath . -buildTarget osxuniversal -buildOSXUniversalPlayer Builds/macOS/TheCompany.app'
-  # test uses the Unity CLI (~/.unity/bin, full path because agent shells may not load it onto PATH).
+  # test uses the Unity CLI at its installer default ($HOME/.unity/bin), spelled out because agent
+  # shells may not load it onto PATH. $HOME keeps it per-user; run as a shell command so it expands.
   # Exit 0 = pass, 8 = tests ran and failed, 6 = run never finished (compile error, license, timeout,
   # or the project is already open in an Editor — close it first). Writes NUnit XML.
-  test: "/Users/machado/.unity/bin/unity test . --mode EditMode --output test-results/editmode.xml --timeout 900"
+  test: "$HOME/.unity/bin/unity test . --mode EditMode --output test-results/editmode.xml --timeout 900"
   run: '"Builds/macOS/TheCompany.app/Contents/MacOS/The Company" -screen-width 1280 -screen-height 720 -screen-fullscreen 0'
   smoke: '"/Applications/Unity/Hub/Editor/6000.6.4f1/Unity.app/Contents/MacOS/Unity" -batchmode -quit -projectPath . -logFile -'
