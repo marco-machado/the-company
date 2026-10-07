@@ -39,6 +39,7 @@ engine:
   language: "C#"
   rendering: "URP"
   physics: "PhysX"
+  path: "/Applications/Unity/Hub/Editor/6000.6.4f1/Unity.app/Contents/MacOS/Unity"   # editor is not on PATH
 
 specialists:
   code: "unity-specialist"
@@ -56,12 +57,9 @@ naming:
   scenes: PascalCase
 
 commands:
-  # TODO: Unity is not installed on this machine, so no editor path exists yet.
-  # After installing 6.6 via Unity Hub and creating the project, set these via /settings
-  # (editor: /Applications/Unity/Hub/Editor/<version>/Unity.app/Contents/MacOS/Unity — full quoted path,
-  # never bare `Unity`). build also needs a macOS -build<PLATFORM>Player flag; confirm it
-  # against Unity's command-line docs rather than guessing.
-  build: "[TO BE CONFIGURED]"
-  test: "[TO BE CONFIGURED]"
-  run: "[TO BE CONFIGURED]"
-  smoke: "[TO BE CONFIGURED]"
+  # build flags sourced from https://docs.unity3d.com/6000.6/Documentation/Manual/EditorCommandLineArguments.html
+  # (-buildTarget osxuniversal, -buildOSXUniversalPlayer). Not yet run on this project.
+  build: '"/Applications/Unity/Hub/Editor/6000.6.4f1/Unity.app/Contents/MacOS/Unity" -batchmode -quit -projectPath . -buildTarget osxuniversal -buildOSXUniversalPlayer Builds/macOS/TheCompany.app'
+  test: '"/Applications/Unity/Hub/Editor/6000.6.4f1/Unity.app/Contents/MacOS/Unity" -batchmode -runTests -projectPath . -testPlatform EditMode -testResults test-results/editmode.xml'
+  run: '"Builds/macOS/TheCompany.app/Contents/MacOS/The Company" -screen-width 1280 -screen-height 720 -screen-fullscreen 0'
+  smoke: '"/Applications/Unity/Hub/Editor/6000.6.4f1/Unity.app/Contents/MacOS/Unity" -batchmode -quit -projectPath . -logFile -'

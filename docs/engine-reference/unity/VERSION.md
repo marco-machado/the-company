@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Engine Version** | Unity 6.6 (6000.6) — Supported release, not LTS (supported until 6.7 ships) |
-| **Installed at pin time** | NOT DETERMINED — no Unity Hub or editor found under `/Applications` or `~/Applications`, none on PATH (probed 2026-10-06). Absence of the probe result is not proof of absence. |
+| **Installed at pin time** | 6000.6.4f1 — matches the 6.6 pin. Editor at `/Applications/Unity/Hub/Editor/6000.6.4f1/`; read from `ProjectSettings/ProjectVersion.txt` (2026-10-06). |
 | **Release Date** | September 1, 2026 (6.6); 6.3 LTS was December 4, 2025 |
 | **Project Pinned** | 2026-10-06 (previously 6.3 LTS, 2026-02-13) |
 | **Last Docs Verified** | 2026-10-06 (6.3 → 6.6 span only; 6.4 and 6.5 NOT SOURCEABLE) |
