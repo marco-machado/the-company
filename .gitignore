@@ -77,6 +77,7 @@ export_presets.cfg
 [Ll]ogs/
 [Uu]ser[Ss]ettings/
 *.csproj
+*.slnx
 *.unityproj
 *.sln
 *.suo

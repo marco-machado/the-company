@@ -47,15 +47,26 @@ skipped()  { SKIPPED=$((SKIPPED+1)); say "[NOT CHECKED] $*"; }
 
 # Read one `key: value` from a named top-level block of project.yaml.
 # Deliberately simple: this file is machine-written and two levels deep.
+# A quoted value ends at its first matching quote, as in yaml-helper.sh, so a
+# trailing `# comment` is dropped -- /setup-engine writes one after engine.path,
+# and keeping it handed the probe a path with the comment glued on.
 yaml_block_value() {
   block="$1"; key="$2"
   awk -v b="$block" -v k="$key" '
     $0 ~ "^"b":" { inb=1; next }
     inb && /^[a-zA-Z_]/ { inb=0 }
     inb && $0 ~ "^[[:space:]]+"k":" {
-      sub("^[[:space:]]*"k":[[:space:]]*", "")
-      gsub(/^"|"$/, "")
-      print; exit
+      v = $0
+      sub("^[[:space:]]*"k":[[:space:]]*", "", v)
+      q = substr(v, 1, 1)
+      if (q == "\"" || q == "\047") {
+        v = substr(v, 2)
+        i = index(v, q)
+        if (i > 0) v = substr(v, 1, i - 1)
+      } else {
+        sub(/[[:space:]]+#.*$/, "", v)
+      }
+      print v; exit
     }
   ' project.yaml 2>/dev/null
 }
@@ -129,16 +140,16 @@ fi
 PROBE=""
 case "$ENGINE_LC" in
   godot)
-    # The executable named in commands.test (quoted, or its first word), else
-    # engine.path, else `godot` on PATH -- the same fallback order dev-story
-    # and smoke-check use. commands.* now carries the full editor path once
-    # /setup-engine has run, so a bare `command -v godot` alone reported "no
-    # Godot binary found on PATH" even on a correctly configured project.
+    # engine.path, else the executable named in commands.test (quoted, or its
+    # first word), else `godot` on PATH. engine.path comes first because it is
+    # the field that names the editor: commands.test may name a wrapper or
+    # runner instead. A bare `command -v godot` alone reported "no Godot binary
+    # found on PATH" even on a correctly configured project.
     GEXE=""
     for GCAND in \
+      "$(yaml_block_value engine path)" \
       "$(yaml_block_value commands test | grep -oE '"[^"]*"' | head -1 | tr -d '"')" \
       "$(yaml_block_value commands test | awk '{print $1}')" \
-      "$(yaml_block_value engine path)" \
       "godot"; do
       [ -n "$GCAND" ] || continue
       if command -v "$GCAND" >/dev/null 2>&1 || [ -x "$GCAND" ]; then
@@ -149,11 +160,21 @@ case "$ENGINE_LC" in
     [ -n "$GEXE" ] && PROBE="$("$GEXE" --version 2>/dev/null | head -1)"
     ;;
   unity)
-    # The editor named in commands.test (/setup-engine writes its full, quoted
-    # path), else the Hub folder for engine.version, picked by OS -- Unity's
-    # Hub installs to a different path on each. Never bare `Unity`: on PATH
-    # that is often Unity's separate CLI, which rejects -version with exit 2.
-    UEXE="$(yaml_block_value commands test | grep -oE '"[^"]*/Unity(\.exe)?"' | head -1 | tr -d '"')"
+    # engine.path, else the editor named in commands.test (/setup-engine writes
+    # its full, quoted path), else the Hub folder for engine.version, picked by
+    # OS -- Unity's Hub installs to a different path on each. engine.path comes
+    # first because commands.test may call the Unity CLI (`unity test`), which
+    # names no editor. Never bare `Unity`: on PATH that is often Unity's
+    # separate CLI, which rejects -version with exit 2.
+    UEXE=""
+    for UCAND in \
+      "$(yaml_block_value engine path)" \
+      "$(yaml_block_value commands test | grep -oE '"[^"]*/Unity(\.exe)?"' | head -1 | tr -d '"')"; do
+      if [ -n "$UCAND" ] && [ -x "$UCAND" ]; then
+        UEXE="$UCAND"
+        break
+      fi
+    done
     if [ -z "$UEXE" ] && [ -n "$VERSION" ]; then
       case "$(uname -s)" in
         Darwin) UEXE="/Applications/Unity/Hub/Editor/$VERSION/Unity.app/Contents/MacOS/Unity" ;;
@@ -168,9 +189,9 @@ esac
 
 if [ -z "$PROBE" ]; then
   if [ "$ENGINE_LC" = "unity" ]; then
-    skipped "declared version vs installed binary — no Unity editor at the path in commands.test or in the Hub folder for engine.version. A probe that could not run has not established absence."
+    skipped "declared version vs installed binary — no Unity editor at engine.path, at the path in commands.test, or in the Hub folder for engine.version. A probe that could not run has not established absence."
   elif [ "$ENGINE_LC" = "godot" ]; then
-    skipped "declared version vs installed binary — no Godot executable found (commands.test, engine.path, PATH). A probe that could not run has not established absence."
+    skipped "declared version vs installed binary — no Godot executable found (engine.path, commands.test, PATH). A probe that could not run has not established absence."
   else
     skipped "declared version vs installed binary — no $ENGINE binary found on PATH. A probe that could not run has not established absence."
   fi

@@ -154,3 +154,19 @@ rootVisualElement.Q<Label>("score-label").text = "Score: 100";
 **Sources:**
 - https://docs.unity3d.com/6000.0/Documentation/Manual/deprecated-features.html
 - https://docs.unity3d.com/Packages/com.unity.inputsystem@1.11/manual/Migration.html
+
+---
+
+## 6.3 → 6.6
+
+**Last verified:** 2026-10-06 — source: https://docs.unity3d.com/Manual/WhatsNewUnity66.html
+(6.4 and 6.5 spans: NOT SOURCEABLE, upgrade guides returned 404.)
+
+| Don't use | Use instead / note |
+|-----------|--------------------|
+| Entities managed components | Unmanaged structs with `UnityObjectRef` |
+| Entities Hierarchy window | Integrated into the standard Hierarchy window |
+| Progressive CPU Light Baker | Unity Compute Light Baker (new in 6.6) |
+| `UNITY_64`, `DEVELOPMENT_BUILD` preprocessor symbols | Deprecated in 6.6; replacement NOT SOURCEABLE at the page fetched |
+| Intel (x86_64) macOS player support | Deprecated in 6.6 |
+| AssetBundles (content workflow) | The page states Content Directories "replace AssetBundles"; confirm scope against Unity docs before migrating |

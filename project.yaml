@@ -32,3 +32,38 @@ modes:
 # here. `/settings --local <key>=<value>` writes there; `/settings <key>=<value>`
 # edits this file. See `.claude/docs/config-resolution.md` for the full
 # precedence order.
+
+engine:
+  name: "Unity"
+  version: "6.6"
+  language: "C#"
+  rendering: "URP"
+  physics: "PhysX"
+  path: "/Applications/Unity/Hub/Editor/6000.6.4f1/Unity.app/Contents/MacOS/Unity"   # editor is not on PATH
+
+specialists:
+  code: "unity-specialist"
+  shader: "unity-shader-specialist"
+  ui: "unity-ui-specialist"
+  additional: ["unity-dots-specialist", "unity-addressables-specialist"]
+
+naming:
+  classes: PascalCase
+  variables: camelCase
+  constants: SCREAMING_SNAKE   # UNVERIFIED — not sourceable from
+                               # docs/engine-reference/unity/; confirm before relying on it
+  signals: "PascalCase On<Event>"
+  files: PascalCase
+  scenes: PascalCase
+
+commands:
+  # build flags sourced from https://docs.unity3d.com/6000.6/Documentation/Manual/EditorCommandLineArguments.html
+  # (-buildTarget osxuniversal, -buildOSXUniversalPlayer). Not yet run on this project.
+  build: '"/Applications/Unity/Hub/Editor/6000.6.4f1/Unity.app/Contents/MacOS/Unity" -batchmode -quit -projectPath . -buildTarget osxuniversal -buildOSXUniversalPlayer Builds/macOS/TheCompany.app'
+  # test uses the Unity CLI at its installer default ($HOME/.unity/bin), spelled out because agent
+  # shells may not load it onto PATH. $HOME keeps it per-user; run as a shell command so it expands.
+  # Exit 0 = pass, 8 = tests ran and failed, 6 = run never finished (compile error, license, timeout,
+  # or the project is already open in an Editor — close it first). Writes NUnit XML.
+  test: "$HOME/.unity/bin/unity test . --mode EditMode --output test-results/editmode.xml --timeout 900"
+  run: '"Builds/macOS/TheCompany.app/Contents/MacOS/The Company" -screen-width 1280 -screen-height 720 -screen-fullscreen 0'
+  smoke: '"/Applications/Unity/Hub/Editor/6000.6.4f1/Unity.app/Contents/MacOS/Unity" -batchmode -quit -projectPath . -logFile -'
