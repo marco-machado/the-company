@@ -152,3 +152,23 @@ When upgrading from 2022 LTS to Unity 6.3 LTS:
 **Sources:**
 - https://docs.unity3d.com/6000.0/Documentation/Manual/upgrade-guides.html
 - https://docs.unity3d.com/Packages/com.unity.entities@1.3/manual/upgrade-guide.html
+
+---
+
+## 6.3 → 6.6
+
+**Last verified:** 2026-10-06 — source: https://docs.unity3d.com/Manual/WhatsNewUnity66.html and
+https://discussions.unity.com/t/unity-6-6-is-now-available/1735357
+
+> **NOT SOURCEABLE — the 6.3→6.4 and 6.4→6.5 spans.** The upgrade-guide pages returned HTTP 404
+> when fetched, so nothing is recorded for 6.4 or 6.5. Check Unity's published release notes for
+> those versions before relying on any API that changed between 6.3 and 6.6.
+
+- **Domain reload is off by default on entering Play Mode** (Fast Enter Play Mode is the default for
+  new projects). Code is not reloaded and static state is not reset, so static field initialization
+  patterns that assumed a reset can break. The legacy behaviour can be restored; the release post
+  says to prepare for it going away in Unity 7.
+- **Mesh Read/Write must be set at import time.** It is no longer auto-enabled at build.
+- **Dynamic batching removed** (Graphics).
+- **Android**: legacy/round icon support removed; OpenGL ES 3.1 is the minimum; legacy signal handler option removed.
+- **Entities**: managed components deprecated (see `deprecated-apis.md`).

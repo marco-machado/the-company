@@ -2,11 +2,11 @@
 
 | Field | Value |
 |-------|-------|
-| **Engine Version** | Unity 6.3 LTS |
-| **Installed at pin time** | NOT DETERMINED — `/setup-engine` §3 probes the installed editor and records the result here. |
-| **Release Date** | December 2025 |
-| **Project Pinned** | 2026-02-13 |
-| **Last Docs Verified** | 2026-02-13 |
+| **Engine Version** | Unity 6.6 (6000.6) — Supported release, not LTS (supported until 6.7 ships) |
+| **Installed at pin time** | NOT DETERMINED — no Unity Hub or editor found under `/Applications` or `~/Applications`, none on PATH (probed 2026-10-06). Absence of the probe result is not proof of absence. |
+| **Release Date** | September 1, 2026 (6.6); 6.3 LTS was December 4, 2025 |
+| **Project Pinned** | 2026-10-06 (previously 6.3 LTS, 2026-02-13) |
+| **Last Docs Verified** | 2026-10-06 (6.3 → 6.6 span only; 6.4 and 6.5 NOT SOURCEABLE) |
 | **LLM Knowledge Cutoff** | May 2025 |
 
 ## Knowledge Gap Warning
@@ -60,6 +60,9 @@ version-qualified claim** — `NOT DETERMINED` means the gap is unknown, not abs
 | 6.1 | Nov 2024 | MEDIUM | Bug fixes, stability improvements |
 | 6.2 | Dec 2024 | MEDIUM | Performance optimizations, new input system improvements |
 | 6.3 LTS | Dec 2025 | HIGH | First LTS since 6.0, production-ready DOTS, enhanced graphics features |
+| 6.4 | NOT SOURCEABLE — release date not stated at the pages fetched | HIGH | NOT SOURCEABLE — no upgrade guide reachable (404) |
+| 6.5 | NOT SOURCEABLE — release date not stated at the pages fetched | HIGH | NOT SOURCEABLE — no upgrade guide reachable (404) |
+| 6.6 | Sep 1, 2026 | HIGH | Domain reload off by default, Cinemachine/Timeline/Animation Rigging as core packages, Content Directories, WebGPU production-ready |
 
 ## Major Changes from 2022 LTS to Unity 6.3 LTS
 
@@ -89,6 +92,8 @@ version-qualified claim** — `NOT DETERMINED` means the gap is unknown, not abs
 - Official docs: https://docs.unity3d.com/6000.0/Documentation/Manual/index.html
 - Unity 6 release: https://unity.com/releases/unity-6
 - Unity 6.3 LTS announcement: https://unity.com/blog/unity-6-3-lts-is-now-available
+- Unity 6.6 release post: https://discussions.unity.com/t/unity-6-6-is-now-available/1735357
+- What's New in Unity 6.6: https://docs.unity3d.com/Manual/WhatsNewUnity66.html
 - Migration guide: https://docs.unity3d.com/6000.0/Documentation/Manual/upgrade-guides.html
 - Unity 6 support: https://unity.com/releases/unity-6/support
 - C# API reference: https://docs.unity3d.com/6000.0/Documentation/ScriptReference/index.html
