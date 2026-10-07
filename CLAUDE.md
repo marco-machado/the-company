@@ -59,6 +59,32 @@ See `docs/COLLABORATIVE-DESIGN-PRINCIPLE.md` for full protocol and examples.
 > **First session?** If the project has no engine configured and no game concept,
 > run `/start` to begin the guided onboarding flow.
 
+## Git Conventions
+
+**Commits** follow [Conventional Commits](https://www.conventionalcommits.org/):
+`<type>(<optional scope>): <summary>` — e.g. `feat(squad): add control groups`.
+
+| Type | Use for |
+|---|---|
+| `feat` | New gameplay, feature or capability |
+| `fix` | Bug fix |
+| `docs` | Design docs, GDDs, ADRs, other documentation |
+| `test` | Adding or changing tests |
+| `refactor` | Code change with no behavior change |
+| `perf` | Performance improvement |
+| `chore` | Config, tooling, framework, dependencies |
+| `build` / `ci` | Build system / CI pipeline |
+| `style` | Formatting only |
+
+- Split work into logical commits — one concern per commit.
+- Reference the story or task ID in the body when one exists (e.g. `Story: EPIC-001-S02`).
+- Breaking changes: `!` after the type (`feat!:`) plus a `BREAKING CHANGE:` footer.
+
+**Branches** are named `<type>/<short-kebab-description>` using the same types —
+e.g. `feat/squad-control`, `fix/alarm-propagation`, `docs/art-bible`.
+Work happens on a branch by default; commit directly to `main` only when the user
+explicitly asks for it.
+
 ## Coding Standards
 
 @.claude/docs/coding-standards.md
